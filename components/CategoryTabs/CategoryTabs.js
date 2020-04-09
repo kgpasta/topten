@@ -1,11 +1,6 @@
 import React from "react";
 import { Paper, Tabs, makeStyles, Tab } from "@material-ui/core";
-import GeographyIcon from "../CustomIcon/GeographyIcon";
-import SportsIcon from "../CustomIcon/SportsIcon";
-import ScienceIcon from "../CustomIcon/ScienceIcon";
-import MiscIcon from "../CustomIcon/MiscIcon";
-import PopCultureIcon from "../CustomIcon/PopCultureIcon";
-import HistoryIcon from "../CustomIcon/HistoryIcon";
+import Categories from "../../constants/Categories";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,42 +16,21 @@ const CategoryTabs = (props) => {
     <Paper square className={classes.root}>
       <Tabs
         value={value}
-        onChange={handleChange}
+        onChange={(_, val) => handleChange(val)}
         variant="fullWidth"
         indicatorColor="secondary"
         textColor="secondary"
         aria-label="icon label tabs example"
       >
-        <Tab
-          classes={classes}
-          icon={<GeographyIcon fontSize={"large"} />}
-          label={"Geo"}
-        />
-        <Tab
-          classes={classes}
-          icon={<SportsIcon fontSize={"large"} />}
-          label={"Sports"}
-        />
-        <Tab
-          classes={classes}
-          icon={<PopCultureIcon fontSize={"large"} />}
-          label={"Culture"}
-        />
-        <Tab
-          classes={classes}
-          icon={<HistoryIcon fontSize={"large"} />}
-          label={"History"}
-        />
-        <Tab
-          classes={classes}
-          icon={<ScienceIcon fontSize={"large"} />}
-          label={"Science"}
-        />
-        <Tab
-          classes={classes}
-          icon={<MiscIcon fontSize={"large"} />}
-          label={"Misc"}
-        />
+        {Object.entries(Categories).map(([slug, category]) => (
+          <Tab
+            key={slug}
+            value={slug}
+            classes={classes}
+            icon={<category.icon fontSize={"large"} />}
+            label={category.label}
+          />
+        ))}
       </Tabs>
     </Paper>
   );
