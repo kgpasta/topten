@@ -4,12 +4,11 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Hidden,
   makeStyles,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -31,17 +30,15 @@ const MenuBar = (props) => {
   return (
     <AppBar position="static" className={classes.appBar}>
       <Toolbar>
-        <Hidden smUp implementation="css">
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={() => props.setMobileOpen(true)}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Hidden>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={() => props.setMobileOpen(true)}
+          className={classes.menuButton}
+        >
+          <MenuIcon />
+        </IconButton>
         <Typography variant="h6">TopTen</Typography>
       </Toolbar>
     </AppBar>
