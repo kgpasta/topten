@@ -49,8 +49,30 @@ const schema = gql`
   }
 
   type Query {
-    topTens: [TopTen]
+    topTens(category: String): [TopTen]
     room: Room
+  }
+
+  input TopTenRequest {
+    category: Category!
+    name: String!
+    answers: [AnswerInput]!
+    source: String
+    description: String
+  }
+
+  input AnswerInput {
+    value: String!
+    data: [KeyValueInput]!
+  }
+
+  input KeyValueInput {
+    key: String!
+    value: String!
+  }
+
+  type Mutation {
+    createTopTen(topTen: TopTenRequest!): TopTen!
   }
 `;
 

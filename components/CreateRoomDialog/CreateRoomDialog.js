@@ -4,13 +4,16 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 const CreateRoomDialog = (props) => {
   const { open, setOpen } = props;
 
   const handleClose = () => {
+    setOpen(false);
+  };
+
+  const createRoom = () => {
     setOpen(false);
   };
 
@@ -22,21 +25,31 @@ const CreateRoomDialog = (props) => {
     >
       <DialogTitle id="form-dialog-title">{"Create a Room"}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{"Create a TopTen Room"}</DialogContentText>
         <TextField
+          color="secondary"
           autoFocus
-          margin="dense"
-          id="name"
+          margin="none"
+          id="roomName"
           label="Room Name"
           type="text"
+          required
+          fullWidth
+        />
+        <TextField
+          color="secondary"
+          margin="dense"
+          id="yourName"
+          label="Your Name"
+          type="text"
+          required
           fullWidth
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleClose} color="secondary">
           {"Cancel"}
         </Button>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={createRoom} color="secondary">
           {"Create"}
         </Button>
       </DialogActions>

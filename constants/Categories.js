@@ -5,23 +5,23 @@ import HistoryIcon from "../components/CustomIcon/HistoryIcon";
 import MiscIcon from "../components/CustomIcon/MiscIcon";
 
 export default {
-  geography: {
+  GEOGRAPHY: {
     icon: GeographyIcon,
     label: "Geography",
   },
-  sports: {
+  SPORTS: {
     icon: SportsIcon,
     label: "Sports",
   },
-  popculture: {
+  POPCULTURE: {
     icon: PopCultureIcon,
     label: "Culture",
   },
-  history: {
+  HISTORY: {
     icon: HistoryIcon,
     label: "History",
   },
-  misc: {
+  MISC: {
     icon: MiscIcon,
     label: "Misc",
   },

@@ -8,20 +8,24 @@ import { useQuery } from "@apollo/react-hooks";
 import CreateRoomDialog from "../components/CreateRoomDialog/CreateRoomDialog";
 
 const QUERY = gql`
-  {
-    topTens {
+  query toptens($category: String) {
+    topTens(category: $category) {
       id
       name
       description
       category
+      source
+      creationDate
     }
   }
 `;
 
 const IndexPage = () => {
-  const { loading, data } = useQuery(QUERY);
-  const [category, useCategory] = useState("geography");
   const [open, setOpen] = useState(false);
+  const [category, useCategory] = useState("GEOGRAPHY");
+  const { loading, data } = useQuery(QUERY, {
+    variables: { category },
+  });
 
   return (
     <App>

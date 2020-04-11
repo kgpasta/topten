@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  makeStyles,
-} from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, makeStyles } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
 const drawerWidth = 250;
@@ -18,10 +12,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   menuButton: {
-    marginRight: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       display: "none",
     },
+  },
+  image: {
+    height: 30,
+    paddingTop: 2.5,
+    paddingBottom: 2.5,
+    objectFit: "contain",
   },
 }));
 
@@ -39,7 +38,11 @@ const MenuBar = (props) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6">TopTen</Typography>
+        <img
+          alt="TopTen"
+          src="/top10_logo_horizontal.svg"
+          className={classes.image}
+        />
       </Toolbar>
     </AppBar>
   );

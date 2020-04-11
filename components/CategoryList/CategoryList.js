@@ -6,6 +6,12 @@ const useStyles = makeStyles(() => ({
   list: {
     margin: 10,
   },
+  circular: {
+    display: "flex",
+    flex: 1,
+    justifyContent: "center",
+    marginTop: 20,
+  },
 }));
 
 const CategoryList = (props) => {
@@ -13,7 +19,11 @@ const CategoryList = (props) => {
   const classes = useStyles();
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <div className={classes.circular}>
+        <CircularProgress />
+      </div>
+    );
   }
 
   return (
