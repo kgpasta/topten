@@ -23,13 +23,18 @@ const QUERY = gql`
 const IndexPage = () => {
   const [open, setOpen] = useState(false);
   const [category, useCategory] = useState("GEOGRAPHY");
-  const { loading, data } = useQuery(QUERY, {
+  const { loading, data, refetch } = useQuery(QUERY, {
     variables: { category },
   });
 
+  const handleChange = (val) => {
+    refetch({ category: val });
+    useCategory(val);
+  };
+
   return (
     <App>
-      <CategoryTabs value={category} handleChange={(val) => useCategory(val)} />
+      <CategoryTabs value={category} handleChange={handleChange} />
       <CategoryList
         loading={loading}
         category={category}
