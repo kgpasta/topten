@@ -1,8 +1,13 @@
 import { v4 } from "uuid";
+import { writeFileSync } from "fs";
 import { ApolloServer } from "apollo-server-micro";
 import { Firestore } from "@google-cloud/firestore";
 import { Room } from "../../data/data";
 import schema from "../../data/schema";
+
+if (process.env.STAGE === "PROD") {
+  writeFileSync("./topten.json", process.env.CREDENTIAL_JSON);
+}
 
 const firestore = new Firestore();
 
