@@ -2,7 +2,6 @@
   "version": 2,
   "env": {
     "STAGE": "PROD",
-    "CREDENTIAL_JSON": "@credential_json",
-    "GOOGLE_APPLICATION_CREDENTIALS": "./topten.json"
+    "CREDENTIAL_JSON": "@credential_json"
   }
 }

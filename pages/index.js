@@ -1,29 +1,18 @@
+import { useQuery } from "@apollo/react-hooks";
 import React, { useState } from "react";
 import App from "../components/App";
-import { withApollo } from "../lib/apollo";
-import CategoryTabs from "../components/CategoryTabs/CategoryTabs";
 import CategoryList from "../components/CategoryList/CategoryList";
-import { gql } from "apollo-server-micro";
-import { useQuery } from "@apollo/react-hooks";
+import CategoryTabs from "../components/CategoryTabs/CategoryTabs";
 import CreateRoomDialog from "../components/CreateRoomDialog/CreateRoomDialog";
-
-const QUERY = gql`
-  query toptens($category: String) {
-    topTens(category: $category) {
-      id
-      name
-      description
-      category
-      source
-      creationDate
-    }
-  }
-`;
+import ErrorSnackbar from "../components/ErrorSnackbar/ErrorSnackbar";
+import { GET_TOP_TENS } from "../data/queries";
+import { withApollo } from "../lib/apollo";
 
 const IndexPage = () => {
-  const [open, setOpen] = useState(false);
+  const [roomDialog, setRoomDialog] = useState({ open: false });
+  const [snack, setSnack] = useState({ open: false });
   const [category, useCategory] = useState("GEOGRAPHY");
-  const { loading, data, refetch } = useQuery(QUERY, {
+  const { loading, data, refetch } = useQuery(GET_TOP_TENS, {
     variables: { category },
   });
 
@@ -39,9 +28,14 @@ const IndexPage = () => {
         loading={loading}
         category={category}
         topTens={data ? data.topTens : []}
-        setOpen={setOpen}
+        setRoomDialog={setRoomDialog}
       />
-      <CreateRoomDialog open={open} setOpen={setOpen} />
+      <CreateRoomDialog
+        roomDialog={roomDialog}
+        setRoomDialog={setRoomDialog}
+        setSnack={setSnack}
+      />
+      <ErrorSnackbar snack={snack} setSnack={setSnack} />
     </App>
   );
 };

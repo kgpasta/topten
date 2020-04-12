@@ -15,13 +15,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CategoryList = (props) => {
-  const { loading, topTens, setOpen } = props;
+  const { loading, topTens, setRoomDialog } = props;
   const classes = useStyles();
 
   if (loading) {
     return (
       <div className={classes.circular}>
-        <CircularProgress />
+        <CircularProgress color="secondary" />
       </div>
     );
   }
@@ -29,7 +29,11 @@ const CategoryList = (props) => {
   return (
     <List className={classes.list}>
       {topTens.map((topTen) => (
-        <TopTenCard key={topTen.id} topTen={topTen} setOpen={setOpen} />
+        <TopTenCard
+          key={topTen.id}
+          topTen={topTen}
+          setRoomDialog={setRoomDialog}
+        />
       ))}
     </List>
   );

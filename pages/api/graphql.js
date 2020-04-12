@@ -1,12 +1,16 @@
 import { v4 } from "uuid";
+import path from "path";
+import os from "os";
 import { writeFileSync } from "fs";
 import { ApolloServer } from "apollo-server-micro";
 import { Firestore } from "@google-cloud/firestore";
-import { Room } from "../../data/data";
 import schema from "../../data/schema";
 
 if (process.env.STAGE === "PROD") {
-  writeFileSync("./topten.json", process.env.CREDENTIAL_JSON);
+  const filepath = path.join(os.tmpdir(), "topten.json");
+  console.log(`writing credentails to ${filepath}`);
+  writeFileSync(filepath, process.env.CREDENTIAL_JSON);
+  process.env["GOOGLE_APPLICATION_CREDENTIALS"] = filepath;
 }
 
 const firestore = new Firestore();
@@ -23,7 +27,13 @@ const resolvers = {
 
       return results.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     },
-    room: () => Room,
+    room: async (_, args) => {
+      const room = firestore.collection("rooms").doc(args.id);
+
+      const doc = await room.get();
+
+      return { id: doc.id, ...doc.data() };
+    },
   },
   Mutation: {
     createTopTen: async (_, args) => {
@@ -35,6 +45,29 @@ const resolvers = {
       });
 
       return topten.get();
+    },
+    createRoom: async (_, args) => {
+      const uuid = v4();
+      const topTen = await firestore.doc(`toptens/${args.room.topTenId}`).get();
+      const room = firestore.doc(`rooms/${uuid}`);
+      await room.set({
+        name: args.room.roomName,
+        members: [
+          {
+            id: v4(),
+            name: args.room.yourName,
+            score: 0,
+            correctAnswers: [],
+            wrongAnswers: [],
+          },
+        ],
+        topTen: topTen.data(),
+        turn: 0,
+        status: "NOTSTARTED",
+        creationDate: new Date().toISOString(),
+      });
+
+      return room.get();
     },
   },
 };

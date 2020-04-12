@@ -27,6 +27,7 @@ const schema = gql`
   }
   type Room {
     id: ID!
+    name: String!
     members: [Member]!
     topTen: TopTen!
     master: ID
@@ -71,8 +72,15 @@ const schema = gql`
     value: String!
   }
 
+  input RoomRequest {
+    roomName: String!
+    yourName: String!
+    topTenId: String!
+  }
+
   type Mutation {
     createTopTen(topTen: TopTenRequest!): TopTen!
+    createRoom(room: RoomRequest!): Room!
   }
 `;
 

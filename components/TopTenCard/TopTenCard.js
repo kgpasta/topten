@@ -18,13 +18,13 @@ const useStyles = makeStyles(() => ({
 
 const TopTenCard = (props) => {
   const classes = useStyles();
-  const { topTen, setOpen } = props;
+  const { topTen, setRoomDialog } = props;
 
   return (
     <Card className={classes.card}>
       <CardActionArea
         className={classes.actionArea}
-        onClick={() => setOpen(true)}
+        onClick={() => setRoomDialog({ open: true, topTenId: topTen.id })}
       >
         <ListItemText
           primary={topTen.name}
