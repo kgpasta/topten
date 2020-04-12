@@ -7,7 +7,7 @@ import {
   ListItemText,
   makeStyles,
 } from "@material-ui/core";
-import { MoveToInbox, Mail } from "@material-ui/icons";
+import { Help, Favorite, Info, MeetingRoom } from "@material-ui/icons";
 import { TextPrimary } from "../../constants/Colors";
 
 const useStyles = makeStyles(() => ({
@@ -19,6 +19,25 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const sections = (classes) => [
+  {
+    label: "How to Play",
+    icon: <Help className={classes.icon} />,
+  },
+  {
+    label: "Join a Room",
+    icon: <MeetingRoom className={classes.icon} />,
+  },
+  {
+    label: "Donate",
+    icon: <Favorite className={classes.icon} />,
+  },
+  {
+    label: "About",
+    icon: <Info className={classes.icon} />,
+  },
+];
+
 const DrawerContent = () => {
   const classes = useStyles();
   return (
@@ -26,16 +45,10 @@ const DrawerContent = () => {
       <div className={classes.spacer} />
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? (
-                <MoveToInbox className={classes.icon} />
-              ) : (
-                <Mail className={classes.icon} />
-              )}
-            </ListItemIcon>
-            <ListItemText primary={text} />
+        {sections(classes).map(({ label, icon }) => (
+          <ListItem button key={label}>
+            <ListItemIcon>{icon}</ListItemIcon>
+            <ListItemText primary={label} />
           </ListItem>
         ))}
       </List>
