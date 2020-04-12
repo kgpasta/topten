@@ -6,3 +6,4 @@ dist
 scripts
 venv/
 yarn-error.log
+.vscode

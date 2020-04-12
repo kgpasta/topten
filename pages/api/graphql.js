@@ -48,7 +48,7 @@ const resolvers = {
       return topten.get();
     },
     createRoom: async (_, args) => {
-      const id = makeCode(9);
+      const id = makeCode(9, 3);
       const topTen = await firestore.doc(`toptens/${args.room.topTenId}`).get();
       const room = firestore.doc(`rooms/${id}`);
       await room.set({
