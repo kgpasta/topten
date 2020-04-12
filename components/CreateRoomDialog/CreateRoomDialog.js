@@ -49,6 +49,8 @@ const CreateRoomDialog = (props) => {
     },
   });
 
+  const canCreate = roomName && yourName && !loading;
+
   return (
     <Dialog
       open={roomDialog.open}
@@ -94,7 +96,7 @@ const CreateRoomDialog = (props) => {
           type="submit"
           onClick={createRoom}
           color="secondary"
-          disabled={loading}
+          disabled={!canCreate}
         >
           {"Create"}
         </Button>

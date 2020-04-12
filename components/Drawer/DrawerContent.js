@@ -8,6 +8,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { Help, Favorite, Info, MeetingRoom } from "@material-ui/icons";
+import Link from "next/link";
 import { TextPrimary } from "../../constants/Colors";
 
 const useStyles = makeStyles(() => ({
@@ -23,6 +24,7 @@ const useStyles = makeStyles(() => ({
   },
   logo: {
     height: 48,
+    cursor: "pointer",
   },
 }));
 
@@ -50,7 +52,13 @@ const DrawerContent = () => {
   return (
     <div>
       <div className={classes.spacer}>
-        <img src={"/logo.png"} alt={"Top Ten Logo"} className={classes.logo} />
+        <Link href="/">
+          <img
+            src={"/logo.png"}
+            alt={"Top Ten Logo"}
+            className={classes.logo}
+          />
+        </Link>
       </div>
       <Divider />
       <List>

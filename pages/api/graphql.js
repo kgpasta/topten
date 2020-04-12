@@ -4,6 +4,7 @@ import os from "os";
 import { writeFileSync } from "fs";
 import { ApolloServer } from "apollo-server-micro";
 import { Firestore } from "@google-cloud/firestore";
+import { makeCode } from "../../utils";
 import schema from "../../data/schema";
 
 if (process.env.STAGE === "PROD") {
@@ -47,9 +48,9 @@ const resolvers = {
       return topten.get();
     },
     createRoom: async (_, args) => {
-      const uuid = v4();
+      const id = makeCode(9);
       const topTen = await firestore.doc(`toptens/${args.room.topTenId}`).get();
-      const room = firestore.doc(`rooms/${uuid}`);
+      const room = firestore.doc(`rooms/${id}`);
       await room.set({
         name: args.room.roomName,
         members: [
