@@ -1,12 +1,12 @@
 import { useQuery } from "@apollo/react-hooks";
 import React, { useState } from "react";
-import App from "../components/App";
 import CategoryList from "../components/CategoryList/CategoryList";
 import CategoryTabs from "../components/CategoryTabs/CategoryTabs";
 import CreateRoomDialog from "../components/CreateRoomDialog/CreateRoomDialog";
 import ErrorSnackbar from "../components/ErrorSnackbar/ErrorSnackbar";
 import { GET_TOP_TENS } from "../data/queries";
 import { withApollo } from "../lib/apollo";
+import { getLayout } from "../layouts/MainLayout";
 
 const IndexPage = () => {
   const [roomDialog, setRoomDialog] = useState({ open: false });
@@ -22,7 +22,7 @@ const IndexPage = () => {
   };
 
   return (
-    <App>
+    <>
       <CategoryTabs value={category} handleChange={handleChange} />
       <CategoryList
         loading={loading}
@@ -36,8 +36,10 @@ const IndexPage = () => {
         setSnack={setSnack}
       />
       <ErrorSnackbar snack={snack} setSnack={setSnack} />
-    </App>
+    </>
   );
 };
 
-export default withApollo({ ssr: true })(IndexPage);
+const IndexApollo = withApollo({ ssr: true })(IndexPage);
+IndexApollo.getLayout = getLayout;
+export default IndexApollo;

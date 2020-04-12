@@ -6,7 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CREATE_ROOM } from "../../data/mutations";
 import { useRouter } from "next/dist/client/router";
 
@@ -30,6 +30,10 @@ const CreateRoomDialog = (props) => {
   const handleClose = () => {
     setRoomDialog({ open: false, topTenId: null });
   };
+
+  useEffect(() => {
+    router.prefetch(`/room/[roomId]`);
+  }, [props.roomDialog.topTenId]);
 
   const [createRoom, { loading }] = useMutation(CREATE_ROOM, {
     variables: {
