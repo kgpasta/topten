@@ -9,7 +9,7 @@ export default function createApolloClient(initialState, ctx) {
   return new ApolloClient({
     ssrMode: Boolean(ctx),
     link: new HttpLink({
-      uri: "http://localhost:3000/api/graphql", // Server URL (must be absolute)
+      uri: "https://toptengame.app/api/graphql", // Server URL (must be absolute)
       credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
       fetch,
     }),
