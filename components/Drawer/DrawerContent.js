@@ -16,6 +16,13 @@ const useStyles = makeStyles(() => ({
   },
   spacer: {
     minHeight: 64,
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logo: {
+    height: 48,
   },
 }));
 
@@ -42,7 +49,9 @@ const DrawerContent = () => {
   const classes = useStyles();
   return (
     <div>
-      <div className={classes.spacer} />
+      <div className={classes.spacer}>
+        <img src={"/logo.png"} alt={"Top Ten Logo"} className={classes.logo} />
+      </div>
       <Divider />
       <List>
         {sections(classes).map(({ label, icon }) => (
