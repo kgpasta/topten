@@ -32,7 +32,6 @@ const resolvers = {
       const room = firestore.collection("rooms").doc(args.id);
 
       const doc = await room.get();
-
       return { id: doc.id, ...doc.data() };
     },
   },
@@ -62,7 +61,7 @@ const resolvers = {
             wrongAnswers: [],
           },
         ],
-        topTen: topTen.data(),
+        topTen: { id: topTen.id, ...topTen.data() },
         turn: 0,
         status: "NOTSTARTED",
         creationDate: new Date().toISOString(),

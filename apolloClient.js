@@ -5,8 +5,8 @@ import fetch from "isomorphic-unfetch";
 
 const base =
   process.env.NODE_ENV === "production"
-    ? "https://toptengame.app/"
-    : "http://localhost:3000/";
+    ? "https://toptengame.app"
+    : "http://localhost:3000";
 
 export default function createApolloClient(initialState, ctx) {
   // The `ctx` (NextPageContext) will only be present on the server.

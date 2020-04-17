@@ -4,10 +4,7 @@ import { ThemeProvider } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Theme from "../constants/Theme";
 
-const Noop = (children) => {
-  console.log("nooop");
-  console.log(children);
-};
+const Noop = (children) => children;
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;

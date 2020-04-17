@@ -51,7 +51,7 @@ const schema = gql`
 
   type Query {
     topTens(category: String): [TopTen]
-    room: Room
+    room(id: String): Room
   }
 
   input TopTenRequest {

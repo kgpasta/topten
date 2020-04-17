@@ -12,3 +12,23 @@ export const GET_TOP_TENS = gql`
     }
   }
 `;
+
+export const GET_ROOM = gql`
+  query room($roomId: String) {
+    room(id: $roomId) {
+      id
+      name
+      members {
+        id
+        name
+      }
+      topTen {
+        name
+        description
+        category
+        source
+        creationDate
+      }
+    }
+  }
+`;
