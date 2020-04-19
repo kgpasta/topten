@@ -78,6 +78,11 @@ const schema = gql`
     topTenId: String!
   }
 
+  input JoinRoomRequest {
+    roomId: String!
+    yourName: String!
+  }
+
   input AssignAnswerRequest {
     index: Int!
     roomId: String!
@@ -87,6 +92,7 @@ const schema = gql`
   type Mutation {
     createTopTen(topTen: TopTenRequest!): TopTen!
     createRoom(room: RoomRequest!): Room!
+    joinRoom(joinRoom: JoinRoomRequest!): Room!
     assignAnswer(assignAnswer: AssignAnswerRequest!): Room!
   }
 `;

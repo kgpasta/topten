@@ -8,6 +8,25 @@ export const CREATE_ROOM = gql`
   }
 `;
 
+export const JOIN_ROOM = gql`
+  mutation joinRoom($request: JoinRoomRequest!) {
+    joinRoom(joinRoom: $request) {
+      id
+      members {
+        id
+        name
+        score
+        correctAnswers {
+          value
+        }
+        wrongAnswers {
+          value
+        }
+      }
+    }
+  }
+`;
+
 export const ASSIGN_ANSWER = gql`
   mutation assignAnswer($request: AssignAnswerRequest!) {
     assignAnswer(assignAnswer: $request) {

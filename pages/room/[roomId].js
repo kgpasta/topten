@@ -44,11 +44,11 @@ const RoomPage = () => {
       <TopTenHeader room={data.room} />
       <Grid container direction="row" spacing={1} className={classes.grid}>
         <Grid item xs={12} sm={6}>
-          <TopTenList room={data.room} setSnack={setSnack} />
+          <MemberList room={data.room} setSnack={setSnack} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <MemberList room={data.room} />
-          <AnswerList room={data.room} />
+          <TopTenList room={data.room} setSnack={setSnack} />
+          <AnswerList room={data.room} setSnack={setSnack} />
         </Grid>
       </Grid>
       <ErrorSnackbar snack={snack} setSnack={setSnack} />

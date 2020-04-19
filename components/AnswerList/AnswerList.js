@@ -13,13 +13,13 @@ const useStyles = makeStyles(() => ({
   },
   subheader: {
     marginLeft: 2,
-    marginTop: 10,
+    marginTop: 5,
     marginBottom: 5,
   },
   well: {
     marginTop: 10,
     padding: 10,
-    minHeight: 300,
+    minHeight: 200,
     borderRadius: 10,
     backgroundColor: "rgba(0, 0, 0, 0.09)",
   },

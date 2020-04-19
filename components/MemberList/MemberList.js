@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   makeStyles,
   ListItem,
@@ -8,7 +8,17 @@ import {
   Chip,
   Typography,
   Box,
+  Button,
+  Grid,
+  FormControl,
+  InputLabel,
+  Input,
+  InputAdornment,
 } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
+import { TextPrimary } from "../../constants/Colors";
+import { useMutation } from "@apollo/react-hooks";
+import { JOIN_ROOM } from "../../data/mutations";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -17,11 +27,14 @@ const useStyles = makeStyles(() => ({
   },
   subheader: {
     marginLeft: 2,
-    marginTop: 10,
+    marginTop: 5,
     marginBottom: 5,
   },
   list_item: {
     paddingLeft: 2,
+  },
+  icon: {
+    color: TextPrimary,
   },
 }));
 
@@ -40,14 +53,41 @@ const MemberListItem = (props) => {
 };
 
 const MemberList = (props) => {
-  const { room } = props;
+  const { room, setSnack } = props;
+  const [yourName, setYourName] = useState("");
   const classes = useStyles();
+  const [joinRoom, { loading }] = useMutation(JOIN_ROOM);
+
+  const onClick = () => {
+    joinRoom({
+      variables: {
+        request: {
+          roomId: room.id,
+          yourName,
+        },
+      },
+    })
+      .then(() => setSnack(""))
+      .catch((err) => {
+        setSnack({ open: true, message: err.toString(), type: "error" });
+      });
+  };
 
   return (
     <Box className={classes.root}>
-      <Typography variant="subtitle2" className={classes.subheader}>
-        {"Players"}
-      </Typography>
+      <Grid
+        container
+        direction="row"
+        alignItems="center"
+        justify="space-between"
+      >
+        <Typography variant="subtitle2" className={classes.subheader}>
+          {"Scoreboard"}
+        </Typography>
+        <Button variant="contained" color="primary" size="small">
+          {"Start Game"}
+        </Button>
+      </Grid>
       <List>
         {room.members.map((member) => (
           <MemberListItem
@@ -57,6 +97,31 @@ const MemberList = (props) => {
           />
         ))}
       </List>
+      <FormControl fullWidth>
+        <InputLabel>{"Add Player"}</InputLabel>
+        <Input
+          type={"text"}
+          value={yourName}
+          onChange={(event) => setYourName(event.target.value)}
+          endAdornment={
+            <InputAdornment position="end">
+              <Button
+                variant="contained"
+                color="secondary"
+                size="small"
+                disabled={!yourName || loading}
+                startIcon={<Add />}
+                classes={{
+                  label: !yourName && classes.icon,
+                }}
+                onClick={() => onClick()}
+              >
+                {"Add"}
+              </Button>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
     </Box>
   );
 };

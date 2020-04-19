@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
   },
   subheader: {
     marginLeft: 2,
-    marginTop: 10,
+    marginTop: 5,
     marginBottom: 5,
   },
   add_icon: {

@@ -76,6 +76,29 @@ const resolvers = {
 
       return room.get();
     },
+    joinRoom: async (_, args) => {
+      const { joinRoom } = args;
+      const room = firestore.doc(`rooms/${joinRoom.roomId}`);
+      const { members: existingMembers } = (await room.get()).data();
+      await room.set(
+        {
+          members: [
+            ...existingMembers,
+            {
+              id: v4(),
+              name: joinRoom.yourName,
+              score: 0,
+              correctAnswers: [],
+              wrongAnswers: [],
+            },
+          ],
+        },
+        { merge: true }
+      );
+
+      const updatedRoom = await room.get();
+      return { id: updatedRoom.id, ...updatedRoom.data() };
+    },
     assignAnswer: async (_, args) => {
       const { assignAnswer } = args;
       const room = firestore.doc(`rooms/${assignAnswer.roomId}`);
