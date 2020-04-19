@@ -1,3 +1,4 @@
+export const BackgroundDimmed = "#232323";
 export const Background = "#343436";
 export const Paper = "#404045";
 export const Primary = "#784c5d";

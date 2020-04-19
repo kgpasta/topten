@@ -5,24 +5,31 @@ import {
   ListItemText,
   List,
   ListItemSecondaryAction,
-  ListSubheader,
   Chip,
+  Typography,
+  Box,
 } from "@material-ui/core";
-import { TextPrimary } from "../../constants/Colors";
 
 const useStyles = makeStyles(() => ({
   root: {
     flex: 1,
+    marginLeft: 10,
   },
-  add_icon: {
-    color: TextPrimary,
+  subheader: {
+    marginLeft: 2,
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  list_item: {
+    paddingLeft: 2,
   },
 }));
 
 const MemberListItem = (props) => {
   const { member, master } = props;
+  const classes = useStyles();
   return (
-    <ListItem>
+    <ListItem className={classes.list_item}>
       <ListItemText primary={`${member.name}`} />
       {member.id === master && <Chip size="small" label="Question Master" />}
       <ListItemSecondaryAction>
@@ -37,14 +44,20 @@ const MemberList = (props) => {
   const classes = useStyles();
 
   return (
-    <List
-      className={classes.root}
-      subheader={<ListSubheader>{"Players"}</ListSubheader>}
-    >
-      {room.members.map((member) => (
-        <MemberListItem key={member.id} member={member} master={room.master} />
-      ))}
-    </List>
+    <Box className={classes.root}>
+      <Typography variant="subtitle2" className={classes.subheader}>
+        {"Players"}
+      </Typography>
+      <List>
+        {room.members.map((member) => (
+          <MemberListItem
+            key={member.id}
+            member={member}
+            master={room.master}
+          />
+        ))}
+      </List>
+    </Box>
   );
 };
 

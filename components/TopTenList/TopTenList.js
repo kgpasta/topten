@@ -8,17 +8,26 @@ import {
   Avatar,
   ListItemSecondaryAction,
   Paper,
-  ListSubheader,
   Select,
   MenuItem,
+  Typography,
+  Box,
 } from "@material-ui/core";
 import { TextPrimary } from "../../constants/Colors";
 import { useMutation } from "@apollo/react-hooks";
 import { ASSIGN_ANSWER } from "../../data/mutations";
 
 const useStyles = makeStyles(() => ({
+  container: {
+    marginLeft: 10,
+  },
   root: {
     flex: 1,
+  },
+  subheader: {
+    marginLeft: 2,
+    marginTop: 10,
+    marginBottom: 5,
   },
   add_icon: {
     color: TextPrimary,
@@ -98,21 +107,23 @@ const TopTenList = (props) => {
   const classes = useStyles();
 
   return (
-    <List
-      className={classes.root}
-      subheader={<ListSubheader>{"Answers"}</ListSubheader>}
-    >
-      {room.topTen.answers.slice(0, 10).map((answer, index) => (
-        <TopTenListItem
-          key={index}
-          index={index}
-          answer={answer}
-          members={room.members}
-          roomId={room.id}
-          setSnack={setSnack}
-        />
-      ))}
-    </List>
+    <Box className={classes.container}>
+      <Typography variant="subtitle2" className={classes.subheader}>
+        {"Answers"}
+      </Typography>
+      <List className={classes.root}>
+        {room.topTen.answers.slice(0, 10).map((answer, index) => (
+          <TopTenListItem
+            key={index}
+            index={index}
+            answer={answer}
+            members={room.members}
+            roomId={room.id}
+            setSnack={setSnack}
+          />
+        ))}
+      </List>
+    </Box>
   );
 };
 

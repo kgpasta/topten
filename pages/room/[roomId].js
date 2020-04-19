@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { CircularProgress, makeStyles, Grid } from "@material-ui/core";
 import TopTenList from "../../components/TopTenList/TopTenList";
 import MemberList from "../../components/MemberList/MemberList";
+import AnswerList from "../../components/AnswerList/AnswerList";
 
 const useStyles = makeStyles(() => ({
   circular: {
@@ -43,10 +44,11 @@ const RoomPage = () => {
       <TopTenHeader room={data.room} />
       <Grid container direction="row" spacing={1} className={classes.grid}>
         <Grid item xs={12} sm={6}>
-          <MemberList room={data.room} />
+          <TopTenList room={data.room} setSnack={setSnack} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TopTenList room={data.room} setSnack={setSnack} />
+          <MemberList room={data.room} />
+          <AnswerList room={data.room} />
         </Grid>
       </Grid>
       <ErrorSnackbar snack={snack} setSnack={setSnack} />
