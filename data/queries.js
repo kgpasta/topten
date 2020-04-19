@@ -21,6 +21,13 @@ export const GET_ROOM = gql`
       members {
         id
         name
+        score
+        correctAnswers {
+          value
+        }
+        wrongAnswers {
+          value
+        }
       }
       topTen {
         name
@@ -28,6 +35,9 @@ export const GET_ROOM = gql`
         category
         source
         creationDate
+        answers {
+          value
+        }
       }
     }
   }

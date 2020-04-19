@@ -14,6 +14,13 @@ if (process.env.STAGE === "PROD") {
   process.env["GOOGLE_APPLICATION_CREDENTIALS"] = filepath;
 }
 
+const calculateScore = (answers, correctAnswers) => {
+  return correctAnswers.reduce((prev, curr) => {
+    const score = 10 - answers.findIndex((ans) => curr.value === ans.value);
+    return (prev += score);
+  }, 0);
+};
+
 const firestore = new Firestore();
 
 const resolvers = {
@@ -68,6 +75,36 @@ const resolvers = {
       });
 
       return room.get();
+    },
+    assignAnswer: async (_, args) => {
+      const { assignAnswer } = args;
+      const room = firestore.doc(`rooms/${assignAnswer.roomId}`);
+      const { topTen, members, turn } = (await room.get()).data();
+      const answer = topTen.answers[assignAnswer.index];
+      const updatedMembers = members.map((m) => {
+        const updatedAnswers = m.correctAnswers.filter(
+          (ans) => ans.value !== answer.value
+        );
+        if (m.id === assignAnswer.memberId) {
+          updatedAnswers.push(answer);
+        }
+
+        return {
+          ...m,
+          correctAnswers: updatedAnswers,
+          score: calculateScore(topTen.answers, updatedAnswers),
+        };
+      });
+
+      await room.set(
+        {
+          members: updatedMembers,
+          turn: turn + 1,
+        },
+        { merge: true }
+      );
+
+      return (await room.get()).data();
     },
   },
 };

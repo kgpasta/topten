@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
 const TopTenHeader = (props) => {
   const { room } = props;
   const classes = useStyles();
-  const category = room && Categories[room.topTen.category];
+  const category = Categories[room.topTen.category];
 
   return (
     <Paper className={classes.card}>
@@ -31,9 +31,7 @@ const TopTenHeader = (props) => {
         <div className={classes.label}>{`${category.label}`}</div>
       </div>
       <Typography variant={"h6"}>{`${room.topTen.name}`}</Typography>
-      <Typography
-        variant={"caption"}
-      >{`${room.topTen.description}`}</Typography>
+      <Typography variant={"caption"}>{room.topTen.description}</Typography>
     </Paper>
   );
 };

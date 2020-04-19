@@ -6,7 +6,9 @@ import TopTenHeader from "../../components/TopTenHeader/TopTenHeader";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_ROOM } from "../../data/queries";
 import { useRouter } from "next/router";
-import { CircularProgress, makeStyles } from "@material-ui/core";
+import { CircularProgress, makeStyles, Grid } from "@material-ui/core";
+import TopTenList from "../../components/TopTenList/TopTenList";
+import MemberList from "../../components/MemberList/MemberList";
 
 const useStyles = makeStyles(() => ({
   circular: {
@@ -14,6 +16,9 @@ const useStyles = makeStyles(() => ({
     flex: 1,
     justifyContent: "center",
     marginTop: 20,
+  },
+  grid: {
+    width: "100%",
   },
 }));
 
@@ -36,6 +41,14 @@ const RoomPage = () => {
   return (
     <>
       <TopTenHeader room={data.room} />
+      <Grid container direction="row" spacing={1} className={classes.grid}>
+        <Grid item xs={12} sm={6}>
+          <MemberList room={data.room} />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TopTenList room={data.room} setSnack={setSnack} />
+        </Grid>
+      </Grid>
       <ErrorSnackbar snack={snack} setSnack={setSnack} />
     </>
   );

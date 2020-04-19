@@ -7,3 +7,17 @@ export const CREATE_ROOM = gql`
     }
   }
 `;
+
+export const ASSIGN_ANSWER = gql`
+  mutation assignAnswer($request: AssignAnswerRequest!) {
+    assignAnswer(assignAnswer: $request) {
+      members {
+        id
+        score
+        correctAnswers {
+          value
+        }
+      }
+    }
+  }
+`;
