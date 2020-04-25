@@ -7,7 +7,7 @@ import {
   ListItemText,
   makeStyles,
 } from "@material-ui/core";
-import { Help, Favorite, Info, MeetingRoom } from "@material-ui/icons";
+import { Help, Favorite, Info } from "@material-ui/icons";
 import Link from "next/link";
 import { TextPrimary } from "../../constants/Colors";
 
@@ -32,10 +32,6 @@ const sections = (classes) => [
   {
     label: "How to Play",
     icon: <Help className={classes.icon} />,
-  },
-  {
-    label: "Join a Room",
-    icon: <MeetingRoom className={classes.icon} />,
   },
   {
     label: "Donate",
