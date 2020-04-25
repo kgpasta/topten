@@ -8,7 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import React, { useState, useEffect } from "react";
 import { CREATE_ROOM } from "../../data/mutations";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles(() => ({
   circular: {
