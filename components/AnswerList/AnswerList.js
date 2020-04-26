@@ -28,6 +28,15 @@ const useStyles = makeStyles(() => ({
     borderRadius: 10,
     backgroundColor: "rgba(0, 0, 0, 0.09)",
   },
+  row_button: {
+    display: "flex",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  text_box: {
+    marginRight: 10,
+  },
 }));
 
 const AnswerList = (props) => {
@@ -67,13 +76,14 @@ const AnswerList = (props) => {
       <Typography variant="subtitle2" className={classes.subheader}>
         {"Answer Pool"}
       </Typography>
-      <Box>
+      <Box className={classes.row_button}>
         <TextField
           label="Enter Incorrect Answer"
           variant="filled"
           fullWidth
           value={wrongAnswer}
           onChange={(event) => setWrongAnswer(event.target.value)}
+          className={classes.text_box}
         />
         <Button variant="contained" color="primary" onClick={submitWrongAnswer}>
           Submit
