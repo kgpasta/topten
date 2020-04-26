@@ -28,16 +28,12 @@ const useStyles = makeStyles(() => ({
 const AnswerList = (props) => {
   const { room } = props;
   const classes = useStyles();
-  const incorrectAnswers = room.members.reduce(
-    (prev, curr) => {
-      return [
-        ...prev,
-        ...curr.wrongAnswers.map((ans) => ({ ...ans, member: curr })),
-      ];
-    },
-    [{ value: "Hello", member: { name: "KG" } }]
-  );
-
+  const incorrectAnswers = room.members.reduce((prev, curr) => {
+    return [
+      ...prev,
+      ...curr.wrongAnswers.map((ans) => ({ ...ans, member: curr })),
+    ];
+  }, []);
   return (
     <Box className={classes.container}>
       <Typography variant="subtitle2" className={classes.subheader}>

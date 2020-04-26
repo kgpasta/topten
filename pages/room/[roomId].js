@@ -10,6 +10,7 @@ import { CircularProgress, makeStyles, Grid } from "@material-ui/core";
 import TopTenList from "../../components/TopTenList/TopTenList";
 import MemberList from "../../components/MemberList/MemberList";
 import AnswerList from "../../components/AnswerList/AnswerList";
+import { getUserId } from "../../data/user";
 
 const useStyles = makeStyles(() => ({
   circular: {
@@ -27,7 +28,7 @@ const RoomPage = () => {
   const router = useRouter();
   const classes = useStyles();
   const { loading, data } = useQuery(GET_ROOM, {
-    variables: { roomId: router.query.roomId },
+    variables: { userId: getUserId(), roomId: router.query.roomId },
   });
   const [snack, setSnack] = useState({ open: false });
 

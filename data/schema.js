@@ -51,7 +51,7 @@ const schema = gql`
 
   type Query {
     topTens(category: String): [TopTen]
-    room(id: String): Room
+    room(userId: String, id: String): Room
   }
 
   input TopTenRequest {
@@ -93,7 +93,8 @@ const schema = gql`
     createTopTen(topTen: TopTenRequest!): TopTen!
     createRoom(userId: String!, room: RoomRequest!): Room!
     joinRoom(userId: String!, joinRoom: JoinRoomRequest!): Room!
-    assignAnswer(assignAnswer: AssignAnswerRequest!): Room!
+    startGame(userId: String!, roomId: String!): Room!
+    assignAnswer(userId: String!, assignAnswer: AssignAnswerRequest!): Room!
   }
 `;
 

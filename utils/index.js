@@ -10,3 +10,10 @@ export const makeCode = (length, chunkSize) => {
   }
   return result;
 };
+
+export const getCurrentTurn = (turn, memberLength) => {
+  const isReverse = Math.floor(turn / memberLength) % 2 === 1;
+
+  const index = turn % memberLength;
+  return isReverse ? memberLength - index - 1 : index;
+};

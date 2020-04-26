@@ -4,7 +4,7 @@ import os from "os";
 import { writeFileSync } from "fs";
 import { ApolloServer } from "apollo-server-micro";
 import { Firestore } from "@google-cloud/firestore";
-import { makeCode } from "../../utils";
+import { makeCode, getCurrentTurn } from "../../utils";
 import schema from "../../data/schema";
 
 if (process.env.STAGE === "PROD") {
@@ -19,6 +19,43 @@ const calculateScore = (answers, correctAnswers) => {
     const score = 10 - answers.findIndex((ans) => curr.value === ans.value);
     return (prev += score);
   }, 0);
+};
+
+const getAvailableAnswers = (userId, room) => {
+  return room.topTen.answers.map((a) => ({
+    ...a,
+    value:
+      hasBeenAnswered(a.value, room.members) || room.master === userId
+        ? a.value
+        : "",
+  }));
+};
+
+const hasBeenAnswered = (value, members) => {
+  return members.some((m) =>
+    m.correctAnswers.some((answer) => answer.value === value)
+  );
+};
+
+const validateStartGame = (master, userId) => {
+  if (master !== userId) {
+    throw new Error("Only the question master can start the game");
+  }
+};
+
+const validateAssignAnswer = (room, userId, assignMemberId) => {
+  if (room.master !== userId) {
+    throw new Error("Cannot assign answer unless you are the question master");
+  }
+
+  if (assignMemberId) {
+    const currentTurn = getCurrentTurn(room.turn, room.members.length - 1);
+    const assignTurn =
+      room.members.findIndex((m) => m.id === assignMemberId) - 1;
+    if (assignTurn !== currentTurn) {
+      throw new Error("Cannot assign answer, not selected user's turn");
+    }
+  }
 };
 
 const firestore = new Firestore();
@@ -37,9 +74,18 @@ const resolvers = {
     },
     room: async (_, args) => {
       const room = firestore.collection("rooms").doc(args.id);
-
       const doc = await room.get();
-      return { id: doc.id, ...doc.data() };
+
+      const roomData = doc.data();
+
+      return {
+        id: doc.id,
+        ...roomData,
+        topTen: {
+          ...roomData.topTen,
+          answers: getAvailableAnswers(args.userId, roomData),
+        },
+      };
     },
   },
   Mutation: {
@@ -69,6 +115,7 @@ const resolvers = {
           },
         ],
         topTen: { id: topTen.id, ...topTen.data() },
+        master: args.userId,
         turn: 0,
         status: "NOTSTARTED",
         creationDate: new Date().toISOString(),
@@ -99,10 +146,30 @@ const resolvers = {
       const updatedRoom = await room.get();
       return { id: updatedRoom.id, ...updatedRoom.data() };
     },
+    startGame: async (_, args) => {
+      const { roomId, userId } = args;
+      const room = firestore.doc(`rooms/${roomId}`);
+      const { master } = (await room.get()).data();
+      validateStartGame(userId, master);
+      await room.set(
+        {
+          status: "INPROGRESS",
+        },
+        { merge: true }
+      );
+
+      const updatedRoom = await room.get();
+      return { id: updatedRoom.id, ...updatedRoom.data() };
+    },
     assignAnswer: async (_, args) => {
       const { assignAnswer } = args;
       const room = firestore.doc(`rooms/${assignAnswer.roomId}`);
-      const { topTen, members, turn } = (await room.get()).data();
+      const { topTen, members, turn, master } = (await room.get()).data();
+      validateAssignAnswer(
+        { master, turn, members },
+        args.userId,
+        assignAnswer.memberId
+      );
       const answer = topTen.answers[assignAnswer.index];
       const updatedMembers = members.map((m) => {
         const updatedAnswers = m.correctAnswers.filter(
@@ -127,7 +194,15 @@ const resolvers = {
         { merge: true }
       );
 
-      return (await room.get()).data();
+      const roomData = (await room.get()).data();
+      return {
+        id: room.id,
+        ...roomData,
+        topTen: {
+          ...topTen,
+          answers: getAvailableAnswers(args.userId, roomData),
+        },
+      };
     },
   },
 };

@@ -27,9 +27,20 @@ export const JOIN_ROOM = gql`
   }
 `;
 
+export const START_GAME = gql`
+  mutation startGame($userId: String!, $roomId: String!) {
+    startGame(userId: $userId, roomId: $roomId) {
+      id
+      status
+    }
+  }
+`;
+
 export const ASSIGN_ANSWER = gql`
-  mutation assignAnswer($request: AssignAnswerRequest!) {
-    assignAnswer(assignAnswer: $request) {
+  mutation assignAnswer($userId: String!, $request: AssignAnswerRequest!) {
+    assignAnswer(userId: $userId, assignAnswer: $request) {
+      id
+      turn
       members {
         id
         score

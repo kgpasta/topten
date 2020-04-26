@@ -12,3 +12,7 @@ export const getUserId = () => {
 
   return id;
 };
+
+export const isMaster = (room) => {
+  return getUserId() === room.master;
+};

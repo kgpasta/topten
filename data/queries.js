@@ -14,10 +14,13 @@ export const GET_TOP_TENS = gql`
 `;
 
 export const GET_ROOM = gql`
-  query room($roomId: String) {
-    room(id: $roomId) {
+  query room($userId: String, $roomId: String) {
+    room(userId: $userId, id: $roomId) {
       id
       name
+      turn
+      master
+      status
       members {
         id
         name

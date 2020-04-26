@@ -16,6 +16,7 @@ import {
 import { TextPrimary } from "../../constants/Colors";
 import { useMutation } from "@apollo/react-hooks";
 import { ASSIGN_ANSWER } from "../../data/mutations";
+import { getUserId } from "../../data/user";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -44,12 +45,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TopTenListItem = (props) => {
-  const { roomId, answer, index, members, setSnack } = props;
+  const { roomId, answer, index, members, master, disabled, setSnack } = props;
 
   const [assignAnswer] = useMutation(ASSIGN_ANSWER);
   const onSelectChange = (memberId) => {
     assignAnswer({
       variables: {
+        userId: getUserId(),
         request: {
           index,
           memberId,
@@ -85,16 +87,19 @@ const TopTenListItem = (props) => {
               icon: classes.icon,
               select: classes.select,
             }}
+            disabled={disabled}
             disableUnderline={true}
           >
             <MenuItem value="" className={classes.none_item}>
               {"None"}
             </MenuItem>
-            {members.map((m) => (
-              <MenuItem key={m.id} value={m.id}>
-                {m.name}
-              </MenuItem>
-            ))}
+            {members
+              .filter((m) => m.id !== master)
+              .map((m) => (
+                <MenuItem key={m.id} value={m.id}>
+                  {m.name}
+                </MenuItem>
+              ))}
           </Select>
         </ListItemSecondaryAction>
       </ListItem>
@@ -116,8 +121,10 @@ const TopTenList = (props) => {
           <TopTenListItem
             key={index}
             index={index}
+            disabled={room.status === "NOTSTARTED"}
             answer={answer}
             members={room.members}
+            master={room.master}
             roomId={room.id}
             setSnack={setSnack}
           />
