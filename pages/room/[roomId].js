@@ -29,6 +29,7 @@ const RoomPage = () => {
   const classes = useStyles();
   const { loading, data } = useQuery(GET_ROOM, {
     variables: { userId: getUserId(), roomId: router.query.roomId },
+    pollInterval: 2000,
   });
   const [snack, setSnack] = useState({ open: false });
 
