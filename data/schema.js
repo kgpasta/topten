@@ -89,12 +89,22 @@ const schema = gql`
     memberId: String!
   }
 
+  input GuessWrongAnswerRequest {
+    roomId: String!
+    memberId: String!
+    wrongAnswer: String!
+  }
+
   type Mutation {
     createTopTen(topTen: TopTenRequest!): TopTen!
     createRoom(userId: String!, room: RoomRequest!): Room!
     joinRoom(userId: String!, joinRoom: JoinRoomRequest!): Room!
     startGame(userId: String!, roomId: String!): Room!
     assignAnswer(userId: String!, assignAnswer: AssignAnswerRequest!): Room!
+    guessWrongAnswer(
+      userId: String!
+      guessWrongAnswer: GuessWrongAnswerRequest!
+    ): Room!
   }
 `;
 

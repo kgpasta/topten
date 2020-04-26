@@ -204,6 +204,44 @@ const resolvers = {
         },
       };
     },
+    guessWrongAnswer: async (_, args) => {
+      const { guessWrongAnswer } = args;
+      const room = firestore.doc(`rooms/${guessWrongAnswer.roomId}`);
+      const { members, turn, master } = (await room.get()).data();
+      validateAssignAnswer(
+        { master, turn, members },
+        args.userId,
+        guessWrongAnswer.memberId
+      );
+
+      const updatedMembers = members.map((m) => {
+        const updatedAnswers = m.wrongAnswers.filter(
+          (ans) => ans.value !== guessWrongAnswer.wrongAnswer
+        );
+        if (m.id === guessWrongAnswer.memberId) {
+          updatedAnswers.push({ value: guessWrongAnswer.wrongAnswer });
+        }
+
+        return {
+          ...m,
+          wrongAnswers: updatedAnswers,
+        };
+      });
+
+      await room.set(
+        {
+          members: updatedMembers,
+          turn: turn + 1,
+        },
+        { merge: true }
+      );
+
+      const roomData = (await room.get()).data();
+      return {
+        id: room.id,
+        ...roomData,
+      };
+    },
   },
 };
 

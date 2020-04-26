@@ -51,3 +51,22 @@ export const ASSIGN_ANSWER = gql`
     }
   }
 `;
+
+export const GUESS_WRONG_ANSWER = gql`
+  mutation guessWrongAnswer(
+    $userId: String!
+    $request: GuessWrongAnswerRequest!
+  ) {
+    guessWrongAnswer(userId: $userId, guessWrongAnswer: $request) {
+      id
+      turn
+      members {
+        id
+        score
+        wrongAnswers {
+          value
+        }
+      }
+    }
+  }
+`;

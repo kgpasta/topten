@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ErrorSnackbar from "../../components/ErrorSnackbar/ErrorSnackbar";
 import { withApollo } from "../../lib/apollo";
 import { getLayout } from "../../layouts/MainLayout";
@@ -27,10 +27,18 @@ const useStyles = makeStyles(() => ({
 const RoomPage = () => {
   const router = useRouter();
   const classes = useStyles();
-  const { loading, data } = useQuery(GET_ROOM, {
+  const { loading, data, startPolling, stopPolling } = useQuery(GET_ROOM, {
     variables: { userId: getUserId(), roomId: router.query.roomId },
     pollInterval: 2000,
   });
+
+  useEffect(() => {
+    startPolling(2000);
+    return () => {
+      stopPolling();
+    };
+  }, [startPolling, stopPolling]);
+
   const [snack, setSnack] = useState({ open: false });
 
   if (loading) {
