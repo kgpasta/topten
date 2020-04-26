@@ -61,7 +61,7 @@ const resolvers = {
         name: args.room.roomName,
         members: [
           {
-            id: v4(),
+            id: args.userId,
             name: args.room.yourName,
             score: 0,
             correctAnswers: [],
@@ -77,7 +77,7 @@ const resolvers = {
       return room.get();
     },
     joinRoom: async (_, args) => {
-      const { joinRoom } = args;
+      const { joinRoom, userId } = args;
       const room = firestore.doc(`rooms/${joinRoom.roomId}`);
       const { members: existingMembers } = (await room.get()).data();
       await room.set(
@@ -85,7 +85,7 @@ const resolvers = {
           members: [
             ...existingMembers,
             {
-              id: v4(),
+              id: userId,
               name: joinRoom.yourName,
               score: 0,
               correctAnswers: [],

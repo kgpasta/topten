@@ -91,8 +91,8 @@ const schema = gql`
 
   type Mutation {
     createTopTen(topTen: TopTenRequest!): TopTen!
-    createRoom(room: RoomRequest!): Room!
-    joinRoom(joinRoom: JoinRoomRequest!): Room!
+    createRoom(userId: String!, room: RoomRequest!): Room!
+    joinRoom(userId: String!, joinRoom: JoinRoomRequest!): Room!
     assignAnswer(assignAnswer: AssignAnswerRequest!): Room!
   }
 `;

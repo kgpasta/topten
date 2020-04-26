@@ -16,6 +16,7 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
+import { getUserId } from "../../data/user";
 import { TextPrimary } from "../../constants/Colors";
 import { useMutation } from "@apollo/react-hooks";
 import { JOIN_ROOM } from "../../data/mutations";
@@ -61,6 +62,7 @@ const MemberList = (props) => {
   const onClick = () => {
     joinRoom({
       variables: {
+        userId: getUserId(),
         request: {
           roomId: room.id,
           yourName,
@@ -72,6 +74,8 @@ const MemberList = (props) => {
         setSnack({ open: true, message: err.toString(), type: "error" });
       });
   };
+
+  const showAdd = !room.members.some((m) => m.id === getUserId());
 
   return (
     <Box className={classes.root}>
@@ -97,31 +101,33 @@ const MemberList = (props) => {
           />
         ))}
       </List>
-      <FormControl fullWidth>
-        <InputLabel>{"Add Player"}</InputLabel>
-        <Input
-          type={"text"}
-          value={yourName}
-          onChange={(event) => setYourName(event.target.value)}
-          endAdornment={
-            <InputAdornment position="end">
-              <Button
-                variant="contained"
-                color="secondary"
-                size="small"
-                disabled={!yourName || loading}
-                startIcon={<Add />}
-                classes={{
-                  label: !yourName && classes.icon,
-                }}
-                onClick={() => onClick()}
-              >
-                {"Add"}
-              </Button>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
+      {showAdd && (
+        <FormControl fullWidth>
+          <InputLabel>{"Add Player"}</InputLabel>
+          <Input
+            type={"text"}
+            value={yourName}
+            onChange={(event) => setYourName(event.target.value)}
+            endAdornment={
+              <InputAdornment position="end">
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  disabled={!yourName || loading}
+                  startIcon={<Add />}
+                  classes={{
+                    label: !yourName && classes.icon,
+                  }}
+                  onClick={() => onClick()}
+                >
+                  {"Add"}
+                </Button>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+      )}
     </Box>
   );
 };

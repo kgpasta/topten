@@ -1,16 +1,16 @@
 import { gql } from "apollo-server-micro";
 
 export const CREATE_ROOM = gql`
-  mutation createRoom($request: RoomRequest!) {
-    createRoom(room: $request) {
+  mutation createRoom($userId: String!, $request: RoomRequest!) {
+    createRoom(userId: $userId, room: $request) {
       id
     }
   }
 `;
 
 export const JOIN_ROOM = gql`
-  mutation joinRoom($request: JoinRoomRequest!) {
-    joinRoom(joinRoom: $request) {
+  mutation joinRoom($userId: String!, $request: JoinRoomRequest!) {
+    joinRoom(userId: $userId, joinRoom: $request) {
       id
       members {
         id
